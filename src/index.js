@@ -35,16 +35,14 @@ const userAgents = [
       .description(Package.description)
       .arguments('<query>')
       .option('-o --output <string>', 'Output filename', 'results.txt')
-      .option('-p --pages <int>', 'How many pages to crawl', parseInt, 15)
+      .option('-p --pages <int>', 'How many pages to crawl', parseInt, Infinity)
       .option('-d --delay <int>', 'Page loading delay', parseInt, 1500)
       .parse(process.argv)
     const query = program.args[0]
-    console.info(chalk.yellow('run headless chromium'))
     const instance = await puppeteer.launch()
     const page = await instance.newPage()
     // Используем рандомный UA
     await page.setUserAgent(userAgents[(userAgents.length * Math.random()) | 0])
-    console.info(chalk.yellow('start search'))
     await page.goto(googleURL)
     await page.waitFor(program.delay)
     await page.type('input[name="q"]', query)
