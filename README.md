@@ -5,6 +5,7 @@
 Usage:
 
 ```zsh
+$ gdq "inurl:?id="
 $ gdq -h
 ```
 
