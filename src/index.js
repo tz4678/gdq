@@ -54,8 +54,9 @@ const userAgents = [
       }
       await next.click()
     }
-    await fs.promises.writeFile(program.output, [...results].join('\n'))
     await instance.close()
+    await fs.promises.writeFile(program.output, [...results].join('\n'))
+    process.exit(0)
   } catch (err) {
     console.error(chalk.red(err))
     process.exit(1)
