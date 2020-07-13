@@ -4,6 +4,7 @@ import { program } from 'commander'
 import fs from 'fs'
 import puppeteer from 'puppeteer'
 import Package from '../package.json'
+const googleURL = 'https://www.google.com/'
 // https://techblog.willshouse.com/2012/01/03/most-common-user-agents/
 const userAgents = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
@@ -33,8 +34,9 @@ const userAgents = [
       .version(Package.version)
       .description(Package.description)
       .arguments('<query>')
-      .option('-p --pages <int>', 'How many pages to crawl', parseInt, 15)
       .option('-o --output <string>', 'Output filename', 'results.txt')
+      .option('-p --pages <int>', 'How many pages to crawl', parseInt, 15)
+      .option('-d --delay <int>', 'Page loading delay', parseInt, 1500)
       .parse(process.argv)
     const query = program.args[0]
     console.info(chalk.yellow('run headless chromium'))
@@ -43,14 +45,14 @@ const userAgents = [
     // Используем рандомный UA
     await page.setUserAgent(userAgents[(userAgents.length * Math.random()) | 0])
     console.info(chalk.yellow('start search'))
-    await page.goto('https://www.google.com/')
-    await page.waitFor(3000)
+    await page.goto(googleURL)
+    await page.waitFor(program.delay)
     await page.type('input[name="q"]', query)
     await page.keyboard.press('Enter')
     const results = new Set()
     for (let pageNum = 1; pageNum <= program.pages; pageNum++) {
       console.log(chalk.blue('process page: %s'), pageNum)
-      await page.waitFor(3000)
+      await page.waitFor(program.delay)
       // await page.screenshot({ path: './screenshot.png' })
       // Парсим результаты
       const links = await page.evaluate(() =>
