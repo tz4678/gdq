@@ -1,0 +1,31 @@
+{
+  "name": "gdq",
+  "version": "0.1.0",
+  "description": "Google Dork Queries (GDQ)",
+  "repository": "github:tz4678/gdq",
+  "homepage": "https://github.com/tz4678/gdq#readme",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src/index.js -o dist/index.js",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "gdq": "dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "commander": "^5.1.0",
+    "puppeteer": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "nodemon": "^2.0.4"
+  }
+}
